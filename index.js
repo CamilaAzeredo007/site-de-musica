@@ -51,6 +51,24 @@ res.redirect("/artistas/lst")
 
 })
 
+//!EDIÇÃO
+
+app.get('/artistas/edt/:id', async (req, res) => {
+
+const artista = await Artista.findById(req.params.id)
+
+res.render("artistas/editartistas", {artista})
+
+})
+
+app.post('/artistas/edt/:id', async (req, res) => {
+
+const artista = await Artista.findByIdAndUpdate(req.params.id, req.body)
+
+res.render("artistas/editartistasok")
+
+})
+
 //!GENEROS
 /*app.get("/generos", (req, res) => {
   res.render("generos");
@@ -85,6 +103,24 @@ app.get('/generos/del/:id', async (req, res) => {
 const genero = await Genero.findByIdAndDelete(req.params.id)
 
 res.redirect("/generos/lst")
+
+})
+
+//!EDIÇÃO
+
+app.get('/generos/edt/:id', async (req, res) => {
+
+const genero = await Genero.findById(req.params.id)
+
+res.render("generos/edit", {genero})
+
+})
+
+app.post('/generos/edt/:id', async (req, res) => {
+
+const genero = await Genero.findByIdAndUpdate(req.params.id, req.body)
+
+res.render("generos/editok")
 
 })
 
@@ -124,6 +160,24 @@ app.get('/musicas/del/:id', async (req, res) => {
 const musica = await Musica.findByIdAndDelete(req.params.id)
 
 res.redirect("/musicas/lst")
+
+})
+
+//!EDIÇÃO
+
+app.get('/musicas/edt/:id', async (req, res) => {
+
+const musica = await Musica.findById(req.params.id)
+
+res.render("musicas/editmusica", {musica})
+
+})
+
+app.post('/musicas/edt/:id', async (req, res) => {
+
+const musica = await Musica.findByIdAndUpdate(req.params.id, req.body)
+
+res.render("musicas/editmusicaok")
 
 })
 

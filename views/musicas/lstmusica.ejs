@@ -26,8 +26,9 @@
                         <td><%=musica.artista%></td>
                         <td><%=musica.genero%></td>
                         <td><%=musica.ano%></td>
-                        <th><%=musica.duracao%></th>
-                        <th><a href="/musicas/del/<%=musica.id%>">Excluir</a></th>
+                        <td><%=musica.duracao%></td>
+                        <td><a href="/musicas/del/<%=musica.id%>">Excluir</a>
+                        <a href="/musicas/edt/<%=musica.id%>" class="link">Editar</a></td>
                     </tr>
                    <%})%>
                   
