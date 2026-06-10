@@ -2,6 +2,7 @@ import express from "express";
 import Genero from './models/Genero.js';
 import Musica from './models/Musica.js';
 import Artista from './models/Artista.js';
+import Album from './models/Album.js';
 
 const app = express();
 const PORT = 3000;
@@ -149,8 +150,8 @@ app.get("/musicas/add", (req, res) => {
 });
 
 app.post("/musicas/add", async (req, res) => {
-  const {titulo, duracao, artista, genero, ano} = req.body;
-  await Musica.create({titulo, duracao, artista, genero, ano})
+  const {titulo, duracao, artista, genero, album, ano} = req.body;
+  await Musica.create({titulo, duracao, artista, genero, album, ano})
   res.render("musicas/addmusicaok");
 });
 
@@ -181,44 +182,48 @@ res.render("musicas/editmusicaok")
 
 })
 
-
-
-app.get("/cadastroartistas", (req, res) => {
-  res.render("cadastroartistas");
+//!ALBUM
+app.get("/album/lst", async (req, res) => {
+  const album = await Album.find()
+  res.render("album/lstalbum", {album});
 });
 
-app.post("/cadastroartistas", (req, res) => {
-  const nome = req.body.nome;
-  const pais = req.body.pais;
-  const anoInicio = req.body.anoInicio;
-
-  res.render("cadastrook", {nome, pais, anoInicio})
+app.get("/album/add", (req, res) => {
+  res.render("album/addalbum");
 });
 
-app.get("/cadastrogeneros", (req, res) => {
-  res.render("cadastrogeneros");
+app.post("/album/add", async (req, res) => {
+  const {nome, artista, genero, descricao, anoLanc} = req.body;
+  await Album.create({nome, artista, genero, descricao, anoLanc})
+  res.render("album/addalbumok");
 });
 
-app.post("/cadastrogeneros", (req, res) => {
-  const nome = req.body.nome;
-  const descricao = req.body.descricao;
+//!DELETE
+app.get('/album/del/:id', async (req, res) => {
 
-  res.render("cadastrogenerosok", {nome, descricao})
-});
+const album = await Album.findByIdAndDelete(req.params.id)
 
-app.get("/cadastromusicas", (req, res) => {
-  res.render("cadastromusicas");
-});
+res.redirect("/album/lst")
 
-app.post("/cadastromusicas", (req, res) => {
-  const titulo = req.body.titulo;
-  const artista = req.body.artista;
-  const genero = req.body.genero;
-  const anoLanc = req.body.anoLanc;
-  const duracao = req.body.duracao;
+})
 
-  res.render("cadastromusicasok", {titulo, artista, genero, anoLanc, duracao})
-});
+//!EDIÇÃO
+
+app.get('/album/edt/:id', async (req, res) => {
+
+const album = await Album.findById(req.params.id)
+
+res.render("album/editalbum", {album})
+
+})
+
+app.post('/album/edt/:id', async (req, res) => {
+
+const album = await Album.findByIdAndUpdate(req.params.id, req.body)
+
+res.render("album/editalbumok")
+
+})
 
 app.listen(PORT, ()=>{
  console.log(
